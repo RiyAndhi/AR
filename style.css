@@ -235,7 +235,7 @@ p {
 .camera-box {
     width: 100%;
 
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 1 / 1;
 
     position: relative;
 
