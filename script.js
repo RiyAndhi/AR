@@ -3,78 +3,48 @@
 
    ID MARKER ARUCO:
 
-   0  = Processor
-   1  = RAM
-   2  = Motherboard
-   3  = SSD / Hard Disk
-   4  = Power Supply
+   0 = Processor
+   1 = RAM
+   2 = Motherboard
+   3 = SSD / Hard Disk
+   4 = Power Supply
 ===================================================== */
-
-let sourceX = 0;
-let sourceY = 0;
-
-let sourceWidth = 0;
-let sourceHeight = 0;
 
 const components = {
 
     0: {
-
         name: "Processor",
-
         image: "images/cpu.png",
-
         description:
             "Processor merupakan pusat pemrosesan data pada komputer. Processor bertugas menjalankan instruksi, mengolah data, serta mengatur berbagai proses yang terjadi pada sistem komputer."
-
     },
-
 
     1: {
-
         name: "RAM",
-
         image: "images/ram.png",
-
         description:
             "RAM atau Random Access Memory berfungsi untuk menyimpan data sementara yang sedang digunakan oleh komputer. Semakin besar kapasitas RAM, semakin banyak data yang dapat diproses secara bersamaan."
-
     },
-
 
     2: {
-
         name: "Motherboard",
-
         image: "images/motherboard.png",
-
         description:
             "Motherboard merupakan papan utama komputer yang berfungsi menghubungkan berbagai komponen seperti processor, RAM, penyimpanan, dan komponen lainnya."
-
     },
-
 
     3: {
-
         name: "SSD / Hard Disk",
-
         image: "images/ssd.png",
-
         description:
             "SSD atau Hard Disk digunakan untuk menyimpan data secara permanen, termasuk sistem operasi, aplikasi, dokumen, foto, video, dan berbagai file lainnya."
-
     },
 
-
     4: {
-
         name: "Power Supply",
-
         image: "images/psu.png",
-
         description:
             "Power Supply Unit atau PSU berfungsi mengubah dan menyalurkan energi listrik ke berbagai komponen komputer agar dapat bekerja dengan baik."
-
     }
 
 };
@@ -85,80 +55,60 @@ const components = {
 ===================================================== */
 
 const video =
-    document.getElementById(
-        "cameraVideo"
-    );
-
+    document.getElementById("cameraVideo");
 
 const canvas =
-    document.getElementById(
-        "cameraCanvas"
-    );
-
+    document.getElementById("cameraCanvas");
 
 const ctx =
-    canvas.getContext(
-        "2d",
-        {
-            willReadFrequently: true
-        }
-    );
+    canvas.getContext("2d", {
+        willReadFrequently: true
+    });
 
+const cameraBox =
+    document.querySelector(".camera-box");
 
 const cameraPlaceholder =
-    document.getElementById(
-        "cameraPlaceholder"
-    );
-
+    document.getElementById("cameraPlaceholder");
 
 const cameraStatus =
-    document.getElementById(
-        "cameraStatus"
-    );
-
+    document.getElementById("cameraStatus");
 
 const startButton =
-    document.getElementById(
-        "startCameraButton"
-    );
-
+    document.getElementById("startCameraButton");
 
 const stopButton =
-    document.getElementById(
-        "stopCameraButton"
-    );
+    document.getElementById("stopCameraButton");
 
 
 /* =====================================================
    VARIABLE
 ===================================================== */
 
-let cameraStream =
-    null;
+let cameraStream = null;
+
+let detectionAnimation = null;
+
+let cameraIsRunning = false;
+
+let currentComponent = null;
+
+let markerAlreadyDetected = false;
+
+let detector = null;
 
 
-let detectionAnimation =
-    null;
+/*
+ * Variabel crop kamera.
+ */
 
+let sourceX = 0;
 
-let cameraIsRunning =
-    false;
+let sourceY = 0;
 
+let sourceWidth = 0;
 
-let currentComponent =
-    null;
-
-
-let markerAlreadyDetected =
-    false;
-
-
-/* =====================================================
-   ARUCO DETECTOR
-===================================================== */
-
-let detector =
-    null;
+let sourceHeight = 0;
 
 
 /* =====================================================
@@ -169,14 +119,7 @@ document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-
-        /*
-         * Pastikan kamera benar-benar mati
-         * ketika halaman pertama dibuka.
-         */
-
         stopCamera();
-
 
     }
 );
@@ -186,19 +129,9 @@ document.addEventListener(
    PINDAH SCREEN
 ===================================================== */
 
-function showScreen(
-    screenId
-) {
+function showScreen(screenId) {
 
-
-    /*
-     * Jika pindah dari scan,
-     * kamera langsung dimatikan.
-     */
-
-    if (
-        screenId !== "scan"
-    ) {
+    if (screenId !== "scan") {
 
         stopCamera();
 
@@ -206,37 +139,25 @@ function showScreen(
 
 
     const screens =
-        document.querySelectorAll(
-            ".screen"
-        );
+        document.querySelectorAll(".screen");
 
 
     screens.forEach(
-        function (
-            screen
-        ) {
+        function (screen) {
 
-            screen.classList.remove(
-                "active"
-            );
+            screen.classList.remove("active");
 
         }
     );
 
 
     const target =
-        document.getElementById(
-            screenId
-        );
+        document.getElementById(screenId);
 
 
-    if (
-        target
-    ) {
+    if (target) {
 
-        target.classList.add(
-            "active"
-        );
+        target.classList.add("active");
 
     }
 
@@ -249,15 +170,7 @@ function showScreen(
 
 async function startCamera() {
 
-
-    /*
-     * Jika kamera sudah aktif,
-     * jangan membuat stream baru.
-     */
-
-    if (
-        cameraIsRunning
-    ) {
+    if (cameraIsRunning) {
 
         return;
 
@@ -266,56 +179,39 @@ async function startCamera() {
 
     try {
 
-
         cameraStatus.textContent =
             "Meminta akses kamera...";
 
 
-        /*
-         * Minta kamera belakang
-         * jika tersedia.
-
-         */
-
         cameraStream =
-            await navigator.mediaDevices.getUserMedia(
+            await navigator.mediaDevices.getUserMedia({
 
-                {
+                video: {
 
-                    video: {
+                    facingMode: {
 
-                        facingMode: {
-
-                            ideal: "environment"
-
-                        },
-
-                        width: {
-
-                            ideal: 1280
-
-                        },
-
-                        height: {
-
-                            ideal: 720
-
-                        }
+                        ideal: "environment"
 
                     },
 
-                    audio: false
+                    width: {
 
-                }
+                        ideal: 1280
 
-            );
+                    },
 
+                    height: {
 
-        /*
-         * Masukkan stream ke
-         * elemen video kita sendiri.
+                        ideal: 720
 
-         */
+                    }
+
+                },
+
+                audio: false
+
+            });
+
 
         video.srcObject =
             cameraStream;
@@ -324,68 +220,107 @@ async function startCamera() {
         await video.play();
 
 
-        /*
-         * Ukuran canvas mengikuti
-         * ukuran video asli.
+        const videoWidth =
+            video.videoWidth;
 
-         */
+        const videoHeight =
+            video.videoHeight;
 
-const videoWidth = video.videoWidth;
-const videoHeight = video.videoHeight;
 
-const videoRatio =
-    videoWidth / videoHeight;
+        if (
+            videoWidth === 0 ||
+            videoHeight === 0
+        ) {
 
-const boxWidth =
-    cameraBox.clientWidth;
+            throw new Error(
+                "Ukuran video tidak valid"
+            );
 
-const boxHeight =
-    cameraBox.clientHeight;
+        }
 
-const boxRatio =
-    boxWidth / boxHeight;
 
-let sourceX = 0;
-let sourceY = 0;
-let sourceWidth = videoWidth;
-let sourceHeight = videoHeight;
+        const videoRatio =
+            videoWidth / videoHeight;
 
-if (videoRatio > boxRatio) {
 
-    sourceWidth =
-        videoHeight * boxRatio;
+        const boxWidth =
+            cameraBox.clientWidth;
 
-    sourceX =
-        (videoWidth - sourceWidth) / 2;
+        const boxHeight =
+            cameraBox.clientHeight;
 
-} else {
 
-    sourceHeight =
-        videoWidth / boxRatio;
+        const boxRatio =
+            boxWidth / boxHeight;
 
-    sourceY =
-        (videoHeight - sourceHeight) / 2;
 
-}
+        sourceX = 0;
 
-canvas.width =
-    sourceWidth;
+        sourceY = 0;
 
-canvas.height =
-    sourceHeight;
+        sourceWidth =
+            videoWidth;
+
+        sourceHeight =
+            videoHeight;
 
 
         /*
-         * Tampilkan video.
-
+         * Crop tanpa menggepengkan video.
          */
+
+        if (
+            videoRatio > boxRatio
+        ) {
+
+            sourceWidth =
+                videoHeight *
+                boxRatio;
+
+
+            sourceX =
+                (
+                    videoWidth -
+                    sourceWidth
+                ) / 2;
+
+        }
+
+        else if (
+            videoRatio < boxRatio
+        ) {
+
+            sourceHeight =
+                videoWidth /
+                boxRatio;
+
+
+            sourceY =
+                (
+                    videoHeight -
+                    sourceHeight
+                ) / 2;
+
+        }
+
+
+        canvas.width =
+            Math.floor(
+                sourceWidth
+            );
+
+        canvas.height =
+            Math.floor(
+                sourceHeight
+            );
+
 
         video.style.display =
             "block";
 
 
         canvas.style.display =
-            "block";
+            "none";
 
 
         cameraPlaceholder.style.display =
@@ -412,12 +347,16 @@ canvas.height =
             "Kamera aktif - arahkan ke marker";
 
 
-        detector = new AR.Detector({
-            dictionaryName: "ARUCO"
-        });
+        detector =
+            new AR.Detector({
+
+                dictionaryName:
+                    "ARUCO"
+
+            });
+
 
         detectMarkers();
-
 
     }
 
@@ -426,8 +365,8 @@ canvas.height =
         error
     ) {
 
-
         console.error(
+            "Kamera gagal diakses:",
             error
         );
 
@@ -457,7 +396,7 @@ canvas.height =
 
 
         alert(
-            "Kamera tidak dapat diakses. Pastikan izin kamera telah diberikan dan jalankan website melalui localhost atau HTTPS."
+            "Kamera tidak dapat diakses. Pastikan izin kamera telah diberikan dan website menggunakan HTTPS."
         );
 
     }
@@ -471,12 +410,6 @@ canvas.height =
 
 function detectMarkers() {
 
-
-    /*
-     * Hentikan jika kamera sudah mati.
-
-     */
-
     if (
         !cameraIsRunning
     ) {
@@ -486,46 +419,39 @@ function detectMarkers() {
     }
 
 
-    /*
-     * Pastikan video sudah memiliki
-     * ukuran yang valid.
-
-     */
-
     if (
+
         video.readyState >= 2 &&
-        video.videoWidth > 0
+
+        video.videoWidth > 0 &&
+
+        video.videoHeight > 0
+
     ) {
 
 
-        /*
-         * Gambar frame kamera ke canvas.
+        ctx.drawImage(
 
-         */
+            video,
 
-ctx.drawImage(
+            sourceX,
 
-    video,
+            sourceY,
 
-    sourceX,
-    sourceY,
+            sourceWidth,
 
-    sourceWidth,
-    sourceHeight,
+            sourceHeight,
 
-    0,
-    0,
+            0,
 
-    canvas.width,
-    canvas.height
+            0,
 
-);
+            canvas.width,
 
+            canvas.height
 
-        /*
-         * Ambil data gambar.
+        );
 
-         */
 
         const imageData =
             ctx.getImageData(
@@ -544,21 +470,11 @@ ctx.drawImage(
         try {
 
 
-            /*
-             * Deteksi marker ArUco.
-
-             */
-
             const markers =
                 detector.detect(
                     imageData
                 );
 
-
-            /*
-             * Jika ada marker.
-
-             */
 
             if (
                 markers.length > 0
@@ -579,28 +495,17 @@ ctx.drawImage(
                     ];
 
 
-                /*
-                 * Hanya proses marker
-                 * yang terdaftar.
-
-                 */
-
                 if (
                     component
                 ) {
 
-
                     detectComponent(
-
                         markerId
-
                     );
 
                 }
 
-
             }
-
 
         }
 
@@ -608,7 +513,6 @@ ctx.drawImage(
         catch (
             error
         ) {
-
 
             console.error(
                 "Gagal mendeteksi marker:",
@@ -619,11 +523,6 @@ ctx.drawImage(
 
     }
 
-
-    /*
-     * Jalankan deteksi frame berikutnya.
-
-     */
 
     detectionAnimation =
         requestAnimationFrame(
@@ -637,9 +536,7 @@ ctx.drawImage(
    MARKER TERDETEKSI
 ===================================================== */
 
-function detectComponent(
-    markerId
-) {
+function detectComponent(markerId) {
 
 
     currentComponent =
@@ -661,12 +558,6 @@ function detectComponent(
         "Marker terdeteksi";
 
 
-    /*
-     * Jangan tampilkan popup
-     * berulang-ulang setiap frame.
-
-     */
-
     if (
         markerAlreadyDetected
     ) {
@@ -680,17 +571,37 @@ function detectComponent(
         true;
 
 
-    document.getElementById(
-        "detectedComponentName"
-    ).textContent =
-        currentComponent.name;
+    const detectedName =
+        document.getElementById(
+            "detectedComponentName"
+        );
 
 
-    document.getElementById(
-        "detectedModal"
-    ).classList.add(
-        "show"
-    );
+    const detectedModal =
+        document.getElementById(
+            "detectedModal"
+        );
+
+
+    if (
+        detectedName
+    ) {
+
+        detectedName.textContent =
+            currentComponent.name;
+
+    }
+
+
+    if (
+        detectedModal
+    ) {
+
+        detectedModal.classList.add(
+            "show"
+        );
+
+    }
 
 }
 
@@ -711,61 +622,103 @@ function showComponentDetail() {
     }
 
 
-    document.getElementById(
-        "detailImage"
-    ).src =
-        currentComponent.image;
+    const detailImage =
+        document.getElementById(
+            "detailImage"
+        );
 
 
-    document.getElementById(
-        "detailImage"
-    ).alt =
-        currentComponent.name;
+    const detailName =
+        document.getElementById(
+            "detailName"
+        );
 
 
-    document.getElementById(
-        "detailName"
-    ).textContent =
-        currentComponent.name;
+    const detailDescription =
+        document.getElementById(
+            "detailDescription"
+        );
 
 
-    document.getElementById(
-        "detailDescription"
-    ).textContent =
-        currentComponent.description;
+    if (
+        detailImage
+    ) {
+
+        detailImage.src =
+            currentComponent.image;
+
+
+        detailImage.alt =
+            currentComponent.name;
+
+    }
+
+
+    if (
+        detailName
+    ) {
+
+        detailName.textContent =
+            currentComponent.name;
+
+    }
+
+
+    if (
+        detailDescription
+    ) {
+
+        detailDescription.textContent =
+            currentComponent.description;
+
+    }
 
 
     closeDetectedModal();
 
 
-    document.getElementById(
-        "detailModal"
-    ).classList.add(
-        "show"
-    );
+    const detailModal =
+        document.getElementById(
+            "detailModal"
+        );
+
+
+    if (
+        detailModal
+    ) {
+
+        detailModal.classList.add(
+            "show"
+        );
+
+    }
 
 }
 
 
 /* =====================================================
-   TUTUP POPUP DETEKSI
+   TUTUP POPUP MARKER
 ===================================================== */
 
 function closeDetectedModal() {
 
 
-    document.getElementById(
-        "detectedModal"
-    ).classList.remove(
-        "show"
-    );
+    const detectedModal =
+        document.getElementById(
+            "detectedModal"
+        );
 
 
-    /*
-     * Boleh mendeteksi kembali
-     * setelah popup ditutup.
+    if (
+        detectedModal
+    ) {
 
-     */
+        detectedModal.classList.remove(
+            "show"
+        );
+
+    }
+
 
     markerAlreadyDetected =
         false;
@@ -780,11 +733,21 @@ function closeDetectedModal() {
 function closeDetailModal() {
 
 
-    document.getElementById(
-        "detailModal"
-    ).classList.remove(
-        "show"
-    );
+    const detailModal =
+        document.getElementById(
+            "detailModal"
+        );
+
+
+    if (
+        detailModal
+    ) {
+
+        detailModal.classList.remove(
+            "show"
+        );
+
+    }
 
 
     markerAlreadyDetected =
@@ -800,15 +763,9 @@ function closeDetailModal() {
 function stopCamera() {
 
 
-    /*
-     * Hentikan loop deteksi.
-
-     */
-
     if (
         detectionAnimation
     ) {
-
 
         cancelAnimationFrame(
             detectionAnimation
@@ -821,11 +778,6 @@ function stopCamera() {
     }
 
 
-    /*
-     * Hentikan semua track kamera.
-
-     */
-
     if (
         cameraStream
     ) {
@@ -834,10 +786,7 @@ function stopCamera() {
         cameraStream
             .getTracks()
             .forEach(
-                function (
-                    track
-                ) {
-
+                function (track) {
 
                     track.stop();
 
@@ -851,35 +800,32 @@ function stopCamera() {
     }
 
 
-    /*
-     * Putuskan video dari stream.
+    if (
+        video
+    ) {
 
-     */
-
-    video.pause();
-
-
-    video.srcObject =
-        null;
+        video.pause();
 
 
-    /*
-     * Sembunyikan video dan canvas.
-
-     */
-
-    video.style.display =
-        "none";
+        video.srcObject =
+            null;
 
 
-    canvas.style.display =
-        "none";
+        video.style.display =
+            "none";
+
+    }
 
 
-    /*
-     * Reset detector.
+    if (
+        canvas
+    ) {
 
-     */
+        canvas.style.display =
+            "none";
+
+    }
+
 
     detector =
         null;
@@ -893,29 +839,52 @@ function stopCamera() {
         false;
 
 
-    /*
-     * Tampilkan placeholder.
-
-     */
-
-    cameraPlaceholder.style.display =
-        "flex";
+    currentComponent =
+        null;
 
 
-    startButton.style.display =
-        "flex";
+    if (
+        cameraPlaceholder
+    ) {
+
+        cameraPlaceholder.style.display =
+            "flex";
+
+    }
 
 
-    stopButton.style.display =
-        "flex";
+    if (
+        startButton
+    ) {
+
+        startButton.style.display =
+            "flex";
+
+    }
 
 
-    cameraStatus.textContent =
-        "Kamera belum aktif";
+    if (
+        stopButton
+    ) {
+
+        stopButton.style.display =
+            "none";
+
+    }
 
 
-    cameraStatus.style.color =
-        "#cbd5e1";
+    if (
+        cameraStatus
+    ) {
+
+        cameraStatus.textContent =
+            "Kamera belum aktif";
+
+
+        cameraStatus.style.color =
+            "#cbd5e1";
+
+    }
 
 }
 
@@ -925,7 +894,6 @@ function stopCamera() {
 ===================================================== */
 
 function closeCameraAndGoHome() {
-
 
     stopCamera();
 

@@ -10,9 +10,20 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <link rel="manifest" href="manifest.json">
+    <title>Pengenalan Komponen Komputer</title>
 
-    <meta name="theme-color" content="#0b1020">
+
+    <!-- PWA -->
+
+    <link
+        rel="manifest"
+        href="manifest.json"
+    >
+
+    <meta
+        name="theme-color"
+        content="#0b1020"
+    >
 
     <meta
         name="mobile-web-app-capable"
@@ -34,9 +45,6 @@
         href="images/icon-192.png"
     >
 
-    <title>
-        Pengenalan Komponen Komputer
-    </title>
 
     <!-- Bootstrap Icons -->
 
@@ -65,12 +73,11 @@
     >
 
 
-    <!-- Library ArUco Marker Detection -->
+    <!-- Library js-aruco2 -->
 
     <script
         src="https://cdn.jsdelivr.net/npm/js-aruco2@2.0.0/src/cv.js"
     ></script>
-
 
     <script
         src="https://cdn.jsdelivr.net/npm/js-aruco2@2.0.0/src/aruco.js"
@@ -102,15 +109,9 @@
             id="home"
         >
 
+            <div class="hero">
 
-            <div
-                class="hero"
-            >
-
-
-                <div
-                    class="logo"
-                >
+                <div class="logo">
 
                     <i
                         class="bi bi-box"
@@ -136,13 +137,10 @@
 
                 </p>
 
-
             </div>
 
 
-            <div
-                class="menu-grid"
-            >
+            <div class="menu-grid">
 
 
                 <button
@@ -207,12 +205,11 @@
 
             </div>
 
-
         </section>
 
 
         <!-- =================================================
-             SCAN
+             SCAN MARKER
         ================================================== -->
 
         <section
@@ -221,9 +218,7 @@
         >
 
 
-            <div
-                class="topbar"
-            >
+            <div class="topbar">
 
 
                 <button
@@ -281,7 +276,6 @@
                     id="cameraPlaceholder"
                 >
 
-
                     <i
                         class="bi bi-camera"
                     ></i>
@@ -292,7 +286,6 @@
                         Kamera belum aktif
 
                     </p>
-
 
                 </div>
 
@@ -319,11 +312,9 @@
             </div>
 
 
-            <!-- CAMERA BUTTON -->
+            <!-- CAMERA BUTTONS -->
 
-            <div
-                class="camera-buttons"
-            >
+            <div class="camera-buttons">
 
 
                 <button
@@ -333,14 +324,12 @@
                     onclick="startCamera()"
                 >
 
-
                     <i
                         class="bi bi-camera-video"
                     ></i>
 
 
                     Aktifkan Kamera
-
 
                 </button>
 
@@ -352,14 +341,12 @@
                     onclick="stopCamera()"
                 >
 
-
                     <i
                         class="bi bi-camera-video-off"
                     ></i>
 
 
                     Matikan Kamera
-
 
                 </button>
 
@@ -369,9 +356,7 @@
 
             <!-- INFO -->
 
-            <div
-                class="info-panel"
-            >
+            <div class="info-panel">
 
 
                 <h3>
@@ -384,7 +369,7 @@
                 <p>
 
                     Aktifkan kamera kemudian arahkan kamera
-                    ke marker ArUco komponen komputer.
+                    ke marker komponen komputer.
                     Jika marker berhasil dikenali, informasi
                     komponen akan ditampilkan.
 
@@ -407,9 +392,7 @@
         >
 
 
-            <div
-                class="topbar"
-            >
+            <div class="topbar">
 
 
                 <button
@@ -435,15 +418,10 @@
             </div>
 
 
-            <div
-                class="component-list"
-            >
+            <div class="component-list">
 
 
-                <div
-                    class="component-card"
-                >
-
+                <div class="component-card">
 
                     <img
                         src="images/cpu.png"
@@ -453,7 +431,6 @@
 
 
                     <div>
-
 
                         <h3>
 
@@ -469,17 +446,12 @@
 
                         </p>
 
-
                     </div>
-
 
                 </div>
 
 
-                <div
-                    class="component-card"
-                >
-
+                <div class="component-card">
 
                     <img
                         src="images/ram.png"
@@ -489,7 +461,6 @@
 
 
                     <div>
-
 
                         <h3>
 
@@ -505,17 +476,12 @@
 
                         </p>
 
-
                     </div>
-
 
                 </div>
 
 
-                <div
-                    class="component-card"
-                >
-
+                <div class="component-card">
 
                     <img
                         src="images/motherboard.png"
@@ -525,7 +491,6 @@
 
 
                     <div>
-
 
                         <h3>
 
@@ -541,17 +506,12 @@
 
                         </p>
 
-
                     </div>
-
 
                 </div>
 
 
-                <div
-                    class="component-card"
-                >
-
+                <div class="component-card">
 
                     <img
                         src="images/ssd.png"
@@ -561,7 +521,6 @@
 
 
                     <div>
-
 
                         <h3>
 
@@ -577,17 +536,12 @@
 
                         </p>
 
-
                     </div>
-
 
                 </div>
 
 
-                <div
-                    class="component-card"
-                >
-
+                <div class="component-card">
 
                     <img
                         src="images/psu.png"
@@ -597,7 +551,6 @@
 
 
                     <div>
-
 
                         <h3>
 
@@ -613,15 +566,12 @@
 
                         </p>
 
-
                     </div>
-
 
                 </div>
 
 
             </div>
-
 
         </section>
 
@@ -636,9 +586,7 @@
         >
 
 
-            <div
-                class="topbar"
-            >
+            <div class="topbar">
 
 
                 <button
@@ -664,14 +612,10 @@
             </div>
 
 
-            <div
-                class="steps"
-            >
+            <div class="steps">
 
 
-                <div
-                    class="step"
-                >
+                <div class="step">
 
                     <span>
 
@@ -688,13 +632,10 @@
 
                     </p>
 
-
                 </div>
 
 
-                <div
-                    class="step"
-                >
+                <div class="step">
 
                     <span>
 
@@ -711,13 +652,10 @@
 
                     </p>
 
-
                 </div>
 
 
-                <div
-                    class="step"
-                >
+                <div class="step">
 
                     <span>
 
@@ -733,13 +671,10 @@
 
                     </p>
 
-
                 </div>
 
 
-                <div
-                    class="step"
-                >
+                <div class="step">
 
                     <span>
 
@@ -756,12 +691,10 @@
 
                     </p>
 
-
                 </div>
 
 
             </div>
-
 
         </section>
 
@@ -779,14 +712,10 @@
     >
 
 
-        <div
-            class="detected-modal"
-        >
+        <div class="detected-modal">
 
 
-            <div
-                class="detected-icon"
-            >
+            <div class="detected-icon">
 
                 <i
                     class="bi bi-check-lg"
@@ -847,7 +776,7 @@
 
 
     <!-- =================================================
-         MODAL DETAIL
+         MODAL DETAIL KOMPONEN
     ================================================== -->
 
     <div
@@ -856,9 +785,7 @@
     >
 
 
-        <div
-            class="detail-modal"
-        >
+        <div class="detail-modal">
 
 
             <button
@@ -898,20 +825,39 @@
     </div>
 
 
-    <!-- JAVASCRIPT -->
+    <!-- =================================================
+         JAVASCRIPT
+    ================================================== -->
 
     <script
         src="script.js"
     ></script>
 
+
+    <!-- SERVICE WORKER -->
+
     <script>
-        if ("serviceWorker" in navigator) {
-            window.addEventListener("load", () => {
-                navigator.serviceWorker.register("./sw.js");
-            });
+
+        if (
+            "serviceWorker" in navigator
+        ) {
+
+            window.addEventListener(
+                "load",
+                function () {
+
+                    navigator.serviceWorker.register(
+                        "./sw.js"
+                    );
+
+                }
+            );
+
         }
+
     </script>
-    
+
+
 </body>
 
 </html>
