@@ -10,11 +10,6 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Pengenalan Komponen Komputer</title>
-
-
-    <!-- PWA -->
-
     <link
         rel="manifest"
         href="manifest.json"
@@ -46,7 +41,10 @@
     >
 
 
-    <!-- Bootstrap Icons -->
+    <title>
+        Pengenalan Komponen Komputer
+    </title>
+
 
     <link
         rel="stylesheet"
@@ -54,12 +52,11 @@
     >
 
 
-    <!-- Google Fonts -->
-
     <link
         rel="preconnect"
         href="https://fonts.googleapis.com"
     >
+
 
     <link
         rel="preconnect"
@@ -67,24 +64,22 @@
         crossorigin
     >
 
+
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet"
     >
 
 
-    <!-- Library js-aruco2 -->
-
     <script
         src="https://cdn.jsdelivr.net/npm/js-aruco2@2.0.0/src/cv.js"
     ></script>
+
 
     <script
         src="https://cdn.jsdelivr.net/npm/js-aruco2@2.0.0/src/aruco.js"
     ></script>
 
-
-    <!-- CSS -->
 
     <link
         rel="stylesheet"
@@ -97,21 +92,25 @@
 <body>
 
 
-    <main class="app">
+    <main
+        class="app"
+    >
 
-
-        <!-- =================================================
-             HOME
-        ================================================== -->
 
         <section
             class="screen active"
             id="home"
         >
 
-            <div class="hero">
 
-                <div class="logo">
+            <div
+                class="hero"
+            >
+
+
+                <div
+                    class="logo"
+                >
 
                     <i
                         class="bi bi-box"
@@ -137,10 +136,13 @@
 
                 </p>
 
+
             </div>
 
 
-            <div class="menu-grid">
+            <div
+                class="menu-grid"
+            >
 
 
                 <button
@@ -205,12 +207,9 @@
 
             </div>
 
+
         </section>
 
-
-        <!-- =================================================
-             SCAN MARKER
-        ================================================== -->
 
         <section
             class="screen"
@@ -218,7 +217,9 @@
         >
 
 
-            <div class="topbar">
+            <div
+                class="topbar"
+            >
 
 
                 <button
@@ -244,15 +245,11 @@
             </div>
 
 
-            <!-- CAMERA BOX -->
-
             <div
                 class="camera-box"
                 id="cameraBox"
             >
 
-
-                <!-- VIDEO KAMERA -->
 
                 <video
                     id="cameraVideo"
@@ -262,14 +259,10 @@
                 ></video>
 
 
-                <!-- CANVAS DETEKSI -->
-
                 <canvas
                     id="cameraCanvas"
                 ></canvas>
 
-
-                <!-- PLACEHOLDER -->
 
                 <div
                     class="camera-placeholder"
@@ -283,21 +276,17 @@
 
                     <p>
 
-                        Kamera belum aktif
+                        Siap untuk memindai
 
                     </p>
 
                 </div>
 
 
-                <!-- FRAME SCAN -->
-
                 <div
                     class="scan-frame"
                 ></div>
 
-
-                <!-- STATUS -->
 
                 <div
                     class="camera-status"
@@ -312,9 +301,9 @@
             </div>
 
 
-            <!-- CAMERA BUTTONS -->
-
-            <div class="camera-buttons">
+            <div
+                class="camera-buttons"
+            >
 
 
                 <button
@@ -339,6 +328,7 @@
                     class="camera-button stop"
                     id="stopCameraButton"
                     onclick="stopCamera()"
+                    style="display: none;"
                 >
 
                     <i
@@ -354,9 +344,9 @@
             </div>
 
 
-            <!-- INFO -->
-
-            <div class="info-panel">
+            <div
+                class="info-panel"
+            >
 
 
                 <h3>
@@ -369,7 +359,7 @@
                 <p>
 
                     Aktifkan kamera kemudian arahkan kamera
-                    ke marker komponen komputer.
+                    ke marker ArUco komponen komputer.
                     Jika marker berhasil dikenali, informasi
                     komponen akan ditampilkan.
 
@@ -382,17 +372,15 @@
         </section>
 
 
-        <!-- =================================================
-             INFO KOMPONEN
-        ================================================== -->
-
         <section
             class="screen"
             id="info"
         >
 
 
-            <div class="topbar">
+            <div
+                class="topbar"
+            >
 
 
                 <button
@@ -418,10 +406,15 @@
             </div>
 
 
-            <div class="component-list">
+            <div
+                class="component-list"
+            >
 
 
-                <div class="component-card">
+                <div
+                    class="component-card"
+                >
+
 
                     <img
                         src="images/cpu.png"
@@ -430,7 +423,9 @@
                     >
 
 
-                    <div>
+                    <div
+                        class="component-content"
+                    >
 
                         <h3>
 
@@ -438,20 +433,27 @@
 
                         </h3>
 
-
-                        <p>
-
-                            Berfungsi sebagai pusat pemrosesan
-                            data pada komputer.
-
-                        </p>
-
                     </div>
+
+
+                    <button
+                        type="button"
+                        class="component-detail-button"
+                        onclick="showInfoDetail(0)"
+                    >
+
+                        Lihat Detail
+
+                    </button>
+
 
                 </div>
 
 
-                <div class="component-card">
+                <div
+                    class="component-card"
+                >
+
 
                     <img
                         src="images/ram.png"
@@ -460,7 +462,9 @@
                     >
 
 
-                    <div>
+                    <div
+                        class="component-content"
+                    >
 
                         <h3>
 
@@ -468,20 +472,27 @@
 
                         </h3>
 
-
-                        <p>
-
-                            Menyimpan data sementara saat
-                            komputer sedang digunakan.
-
-                        </p>
-
                     </div>
+
+
+                    <button
+                        type="button"
+                        class="component-detail-button"
+                        onclick="showInfoDetail(1)"
+                    >
+
+                        Lihat Detail
+
+                    </button>
+
 
                 </div>
 
 
-                <div class="component-card">
+                <div
+                    class="component-card"
+                >
+
 
                     <img
                         src="images/motherboard.png"
@@ -490,7 +501,9 @@
                     >
 
 
-                    <div>
+                    <div
+                        class="component-content"
+                    >
 
                         <h3>
 
@@ -498,20 +511,27 @@
 
                         </h3>
 
-
-                        <p>
-
-                            Menghubungkan seluruh komponen
-                            utama komputer.
-
-                        </p>
-
                     </div>
+
+
+                    <button
+                        type="button"
+                        class="component-detail-button"
+                        onclick="showInfoDetail(2)"
+                    >
+
+                        Lihat Detail
+
+                    </button>
+
 
                 </div>
 
 
-                <div class="component-card">
+                <div
+                    class="component-card"
+                >
+
 
                     <img
                         src="images/ssd.png"
@@ -520,7 +540,9 @@
                     >
 
 
-                    <div>
+                    <div
+                        class="component-content"
+                    >
 
                         <h3>
 
@@ -528,20 +550,27 @@
 
                         </h3>
 
-
-                        <p>
-
-                            Digunakan untuk menyimpan data
-                            dan sistem operasi.
-
-                        </p>
-
                     </div>
+
+
+                    <button
+                        type="button"
+                        class="component-detail-button"
+                        onclick="showInfoDetail(3)"
+                    >
+
+                        Lihat Detail
+
+                    </button>
+
 
                 </div>
 
 
-                <div class="component-card">
+                <div
+                    class="component-card"
+                >
+
 
                     <img
                         src="images/psu.png"
@@ -550,7 +579,9 @@
                     >
 
 
-                    <div>
+                    <div
+                        class="component-content"
+                    >
 
                         <h3>
 
@@ -558,27 +589,28 @@
 
                         </h3>
 
-
-                        <p>
-
-                            Menyuplai daya listrik ke seluruh
-                            komponen komputer.
-
-                        </p>
-
                     </div>
+
+
+                    <button
+                        type="button"
+                        class="component-detail-button"
+                        onclick="showInfoDetail(4)"
+                    >
+
+                        Lihat Detail
+
+                    </button>
+
 
                 </div>
 
 
             </div>
 
+
         </section>
 
-
-        <!-- =================================================
-             GUIDE
-        ================================================== -->
 
         <section
             class="screen"
@@ -586,7 +618,9 @@
         >
 
 
-            <div class="topbar">
+            <div
+                class="topbar"
+            >
 
 
                 <button
@@ -612,10 +646,14 @@
             </div>
 
 
-            <div class="steps">
+            <div
+                class="steps"
+            >
 
 
-                <div class="step">
+                <div
+                    class="step"
+                >
 
                     <span>
 
@@ -632,10 +670,13 @@
 
                     </p>
 
+
                 </div>
 
 
-                <div class="step">
+                <div
+                    class="step"
+                >
 
                     <span>
 
@@ -652,10 +693,13 @@
 
                     </p>
 
+
                 </div>
 
 
-                <div class="step">
+                <div
+                    class="step"
+                >
 
                     <span>
 
@@ -671,10 +715,13 @@
 
                     </p>
 
+
                 </div>
 
 
-                <div class="step">
+                <div
+                    class="step"
+                >
 
                     <span>
 
@@ -691,10 +738,12 @@
 
                     </p>
 
+
                 </div>
 
 
             </div>
+
 
         </section>
 
@@ -702,20 +751,20 @@
     </main>
 
 
-    <!-- =================================================
-         MODAL MARKER TERDETEKSI
-    ================================================== -->
-
     <div
         class="modal-overlay"
         id="detectedModal"
     >
 
 
-        <div class="detected-modal">
+        <div
+            class="detected-modal"
+        >
 
 
-            <div class="detected-icon">
+            <div
+                class="detected-icon"
+            >
 
                 <i
                     class="bi bi-check-lg"
@@ -775,17 +824,15 @@
     </div>
 
 
-    <!-- =================================================
-         MODAL DETAIL KOMPONEN
-    ================================================== -->
-
     <div
         class="modal-overlay"
         id="detailModal"
     >
 
 
-        <div class="detail-modal">
+        <div
+            class="detail-modal"
+        >
 
 
             <button
@@ -825,21 +872,17 @@
     </div>
 
 
-    <!-- =================================================
-         JAVASCRIPT
-    ================================================== -->
-
     <script
         src="script.js"
     ></script>
 
 
-    <!-- SERVICE WORKER -->
-
     <script>
 
         if (
-            "serviceWorker" in navigator
+            "serviceWorker"
+            in
+            navigator
         ) {
 
             window.addEventListener(
