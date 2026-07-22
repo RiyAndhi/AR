@@ -1,54 +1,73 @@
-/* =========================
+/* =====================================================
    RESET
-========================= */
+===================================================== */
 
 * {
+
     box-sizing: border-box;
+
     margin: 0;
+
     padding: 0;
+
 }
 
 
-/* =========================
+/* =====================================================
    GLOBAL
-========================= */
+===================================================== */
 
 body {
+
     min-height: 100vh;
 
     display: flex;
+
     justify-content: center;
+
     align-items: center;
 
     font-family: "Poppins", sans-serif;
 
     background: #0b1020;
+
     color: #ffffff;
+
 }
+
 
 h1,
 h2,
 h3 {
+
     font-weight: 600;
+
 }
+
 
 p {
+
     font-weight: 400;
+
 }
 
 
-/* =========================
+/* =====================================================
    APP
-========================= */
+===================================================== */
 
 .app {
+
     width: 100%;
+
     max-width: 420px;
+
     min-height: 100vh;
 
     padding: 24px;
 
     position: relative;
+
     overflow: hidden;
 
     background: linear-gradient(
@@ -56,62 +75,83 @@ p {
         #111827,
         #020617
     );
+
 }
 
 
-/* =========================
+/* =====================================================
    SCREEN
-========================= */
+===================================================== */
 
 .screen {
+
     display: none;
+
 }
+
 
 .screen.active {
+
     display: block;
+
 }
 
 
-/* =========================
+/* =====================================================
    HERO
-========================= */
+===================================================== */
 
 .hero {
+
     margin-top: 50px;
+
     margin-bottom: 40px;
 
     text-align: center;
+
 }
 
+
 .hero h1 {
+
     margin-bottom: 14px;
 
     font-size: 30px;
+
     line-height: 1.2;
+
 }
 
+
 .hero p {
+
     color: #cbd5e1;
 
     font-size: 14px;
+
     line-height: 1.7;
 
     text-align: justify;
+
 }
 
 
-/* =========================
+/* =====================================================
    LOGO
-========================= */
+===================================================== */
 
 .logo {
+
     width: 86px;
+
     height: 86px;
 
     margin: 0 auto 35px;
 
     display: flex;
+
     justify-content: center;
+
     align-items: center;
 
     border-radius: 24px;
@@ -119,202 +159,296 @@ p {
     background: #1e293b;
 
     box-shadow:
-        0 0 30px rgba(56, 189, 248, 0.25);
+
+        0 0 30px rgba(
+            56,
+            189,
+            248,
+            0.25
+        );
+
 }
+
 
 .logo i {
+
     color: #38bdf8;
+
     font-size: 42px;
+
 }
 
 
-/* =========================
+/* =====================================================
    MENU
-========================= */
+===================================================== */
 
 .menu-grid {
+
     display: grid;
+
     gap: 16px;
+
 }
 
+
 .menu-card {
+
     width: 100%;
 
     padding: 18px;
 
     display: flex;
+
     align-items: center;
+
     gap: 16px;
 
     border: none;
+
     border-radius: 20px;
 
     background: #1e293b;
+
     color: #ffffff;
 
     font-family: inherit;
+
     font-size: 16px;
+
     font-weight: 500;
 
     cursor: pointer;
 
-    transition: 0.2s ease;
 }
 
-.menu-card:hover {
-    background: #27364b;
-    transform: translateY(-2px);
-}
 
 .menu-card i {
+
     width: 48px;
+
     height: 48px;
 
     display: flex;
+
     justify-content: center;
+
     align-items: center;
 
     border-radius: 16px;
 
     background: #0f172a;
+
     color: #38bdf8;
 
     font-size: 25px;
+
 }
 
 
-/* =========================
+/* =====================================================
    TOPBAR
-========================= */
+===================================================== */
 
 .topbar {
+
     display: flex;
+
     align-items: center;
+
     gap: 14px;
 
     margin-bottom: 28px;
+
 }
+
 
 .topbar h2 {
+
     font-size: 22px;
+
 }
 
+
 .back-button {
+
     width: 42px;
+
     height: 42px;
 
     display: flex;
+
     justify-content: center;
+
     align-items: center;
 
     border: none;
+
     border-radius: 14px;
 
     background: #1e293b;
+
     color: #ffffff;
 
     font-size: 20px;
 
     cursor: pointer;
 
-    transition: 0.2s ease;
-}
-
-.back-button:hover {
-    background: #27364b;
 }
 
 
-/* =========================
-   CAMERA
-========================= */
+/* =====================================================
+   CAMERA BOX
+===================================================== */
 
 .camera-box {
+    width: 100%;
     height: 360px;
-
-    margin-bottom: 20px;
-
     position: relative;
-
     overflow: hidden;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
     border: 2px solid #334155;
     border-radius: 24px;
-
     background: #020617;
 }
 
+/* =====================================================
+   VIDEO
+===================================================== */
 
-/* Video Kamera */
+#cameraVideo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
 
-#camera {
     width: 100%;
+    height: auto;
+    min-height: 100%;
+
+    z-index: 1;
+    display: none;
+
+    transform: translate(-50%, -50%);
+}
+
+/* =====================================================
+   CANVAS
+===================================================== */
+
+#cameraCanvas {
+
+    width: 100%;
+
     height: 100%;
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2;
 
     display: none;
 
-    object-fit: cover;
+    pointer-events: none;
+
 }
 
 
-/* Placeholder Kamera */
+/* =====================================================
+   PLACEHOLDER
+===================================================== */
 
 .camera-placeholder {
+
+    width: 100%;
+
+    height: 100%;
+
     position: absolute;
 
-    z-index: 1;
+    inset: 0;
+
+    z-index: 3;
 
     display: flex;
+
     flex-direction: column;
+
     justify-content: center;
+
     align-items: center;
+
+    background: #020617;
 
     color: #94a3b8;
 
-    text-align: center;
 }
 
+
 .camera-placeholder i {
+
     margin-bottom: 12px;
 
     color: #38bdf8;
+
     font-size: 54px;
+
 }
 
 
-/* Frame Scanner */
+/* =====================================================
+   SCAN FRAME
+===================================================== */
 
 .scan-frame {
+
     width: 210px;
+
     height: 210px;
 
     position: absolute;
 
-    z-index: 2;
+    top: 50%;
+
+    left: 50%;
+
+    z-index: 5;
+
+    transform: translate(
+        -50%,
+        -50%
+    );
 
     border: 3px solid #38bdf8;
+
     border-radius: 18px;
 
     pointer-events: none;
 
     box-shadow:
-        0 0 20px rgba(56, 189, 248, 0.4);
+
+        0 0 20px rgba(
+            56,
+            189,
+            248,
+            0.4
+        );
+
 }
 
 
-/* Status Kamera */
+/* =====================================================
+   CAMERA STATUS
+===================================================== */
 
 .camera-status {
+
     position: absolute;
 
     left: 50%;
+
     bottom: 16px;
 
-    z-index: 3;
+    z-index: 6;
 
     padding: 6px 12px;
 
@@ -322,110 +456,148 @@ p {
 
     border-radius: 20px;
 
-    background: rgba(2, 6, 23, 0.8);
+    background: rgba(
+        2,
+        6,
+        23,
+        0.85
+    );
 
     color: #cbd5e1;
 
     font-size: 12px;
 
     white-space: nowrap;
+
 }
 
 
-/* =========================
+/* =====================================================
    CAMERA BUTTONS
-========================= */
+===================================================== */
 
 .camera-buttons {
+
     display: grid;
+
     gap: 12px;
 
+    margin-top: 20px;
+
     margin-bottom: 20px;
+
 }
 
+
 .camera-button {
+
     width: 100%;
 
     padding: 14px;
 
     display: flex;
+
     justify-content: center;
+
     align-items: center;
+
     gap: 10px;
 
     border: none;
+
     border-radius: 16px;
 
     background: #38bdf8;
+
     color: #020617;
 
     font-family: inherit;
+
     font-size: 14px;
+
     font-weight: 600;
 
     cursor: pointer;
 
-    transition: 0.2s ease;
 }
 
-.camera-button:hover {
-    opacity: 0.85;
-}
 
 .camera-button.stop {
+
     background: #1e293b;
+
     color: #ffffff;
+
 }
 
 
-/* =========================
+/* =====================================================
    INFO PANEL
-========================= */
+===================================================== */
 
 .info-panel {
+
     padding: 18px;
 
     border-radius: 20px;
 
     background: #1e293b;
+
 }
+
 
 .info-panel h3 {
+
     margin-bottom: 8px;
+
 }
 
+
 .info-panel p {
+
     color: #cbd5e1;
 
     line-height: 1.7;
 
     text-align: justify;
+
 }
 
 
-/* =========================
+/* =====================================================
    COMPONENT LIST
-========================= */
+===================================================== */
 
 .component-list {
+
     display: grid;
+
     gap: 14px;
+
 }
 
+
 .component-card {
+
     padding: 18px;
 
     display: flex;
+
     align-items: center;
+
     gap: 18px;
 
     border-radius: 18px;
 
     background: #1e293b;
+
 }
 
+
 .component-img {
+
     width: 70px;
+
     height: 70px;
 
     flex-shrink: 0;
@@ -437,83 +609,335 @@ p {
     border-radius: 14px;
 
     background: #ffffff;
+
 }
+
 
 .component-card h3 {
+
     margin-bottom: 6px;
+
 }
 
+
 .component-card p {
+
     color: #cbd5e1;
 
     font-size: 14px;
+
     line-height: 1.7;
 
     text-align: justify;
+
 }
 
 
-/* =========================
+/* =====================================================
    GUIDE
-========================= */
+===================================================== */
 
 .steps {
+
     display: grid;
+
     gap: 16px;
+
 }
 
+
 .step {
+
     padding: 18px;
 
     display: flex;
+
     gap: 14px;
 
     border-radius: 18px;
 
     background: #1e293b;
+
 }
 
+
 .step span {
+
     width: 34px;
+
     height: 34px;
 
     flex-shrink: 0;
 
     display: flex;
+
     justify-content: center;
+
     align-items: center;
 
     border-radius: 50%;
 
     background: #38bdf8;
+
     color: #020617;
 
     font-weight: bold;
+
 }
 
+
 .step p {
+
     color: #e2e8f0;
 
     line-height: 1.7;
 
     text-align: justify;
+
 }
 
 
-/* =========================
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100;
+
+    display: none;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 24px;
+
+    background: rgba(
+        2,
+        6,
+        23,
+        0.85
+    );
+
+}
+
+
+.modal-overlay.show {
+
+    display: flex;
+
+}
+
+
+.detected-modal,
+.detail-modal {
+
+    width: 100%;
+
+    max-width: 360px;
+
+    padding: 28px;
+
+    border-radius: 28px;
+
+    background: #1e293b;
+
+    text-align: center;
+
+}
+
+
+.detected-icon {
+
+    width: 70px;
+
+    height: 70px;
+
+    margin: 0 auto 18px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border-radius: 50%;
+
+    background: #38bdf8;
+
+    color: #020617;
+
+    font-size: 36px;
+
+}
+
+
+.detected-modal h2 {
+
+    margin-bottom: 8px;
+
+}
+
+
+.detected-modal p {
+
+    margin-bottom: 8px;
+
+    color: #cbd5e1;
+
+}
+
+
+.detected-modal h3 {
+
+    margin-bottom: 22px;
+
+    color: #38bdf8;
+
+}
+
+
+.detail-button,
+.close-modal-button {
+
+    width: 100%;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    font-family: inherit;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+.detail-button {
+
+    margin-bottom: 10px;
+
+    background: #38bdf8;
+
+    color: #020617;
+
+}
+
+
+.close-modal-button {
+
+    background: #0f172a;
+
+    color: #ffffff;
+
+}
+
+
+.detail-modal {
+
+    position: relative;
+
+}
+
+
+.modal-close {
+
+    width: 36px;
+
+    height: 36px;
+
+    position: absolute;
+
+    top: 14px;
+
+    right: 14px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #0f172a;
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+}
+
+
+.detail-image {
+
+    width: 150px;
+
+    height: 150px;
+
+    margin: 20px auto;
+
+    display: block;
+
+    object-fit: contain;
+
+    border-radius: 20px;
+
+    background: #ffffff;
+
+}
+
+
+.detail-modal h2 {
+
+    margin-bottom: 14px;
+
+    color: #38bdf8;
+
+}
+
+
+.detail-modal p {
+
+    color: #cbd5e1;
+
+    line-height: 1.7;
+
+    text-align: justify;
+
+}
+
+
+/* =====================================================
    DESKTOP
-========================= */
+===================================================== */
 
 @media (min-width: 768px) {
 
     body {
+
         padding: 30px;
+
     }
 
+
     .app {
+
         min-height: 760px;
 
         border-radius: 32px;
+
     }
 
 }

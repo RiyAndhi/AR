@@ -2,22 +2,57 @@
 <html lang="id">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Pengenalan Komponen Komputer</title>
+    <link rel="manifest" href="manifest.json">
+
+    <meta name="theme-color" content="#0b1020">
+
+    <meta
+        name="mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="black-translucent"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="images/icon-192.png"
+    >
+
+    <title>
+        Pengenalan Komponen Komputer
+    </title>
 
     <!-- Bootstrap Icons -->
+
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
     >
 
-    <!-- Google Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <!-- Google Fonts -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
     <link
         rel="preconnect"
         href="https://fonts.gstatic.com"
@@ -29,45 +64,86 @@
         rel="stylesheet"
     >
 
+
+    <!-- Library ArUco Marker Detection -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/js-aruco2@2.0.0/src/cv.js"
+    ></script>
+
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/js-aruco2@2.0.0/src/aruco.js"
+    ></script>
+
+
     <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
 
 <body>
 
+
     <main class="app">
 
-        <!-- =========================
-             MENU UTAMA
-        ========================== -->
+
+        <!-- =================================================
+             HOME
+        ================================================== -->
 
         <section
             class="screen active"
             id="home"
         >
 
-            <div class="hero">
 
-                <div class="logo">
-                    <i class="bi bi-box"></i>
+            <div
+                class="hero"
+            >
+
+
+                <div
+                    class="logo"
+                >
+
+                    <i
+                        class="bi bi-box"
+                    ></i>
+
                 </div>
 
+
                 <h1>
+
                     Pengenalan<br>
                     Komponen<br>
                     Komputer
+
                 </h1>
 
+
                 <p>
+
                     Media pembelajaran interaktif berbasis
                     Augmented Reality untuk membantu mengenal
                     bentuk dan fungsi komponen komputer.
+
                 </p>
+
 
             </div>
 
 
-            <div class="menu-grid">
+            <div
+                class="menu-grid"
+            >
+
 
                 <button
                     type="button"
@@ -75,10 +151,15 @@
                     onclick="showScreen('scan')"
                 >
 
-                    <i class="bi bi-camera-video"></i>
+                    <i
+                        class="bi bi-camera-video"
+                    ></i>
+
 
                     <span>
+
                         Scan Marker
+
                     </span>
 
                 </button>
@@ -90,10 +171,15 @@
                     onclick="showScreen('info')"
                 >
 
-                    <i class="bi bi-info-circle"></i>
+                    <i
+                        class="bi bi-info-circle"
+                    ></i>
+
 
                     <span>
+
                         Info Komponen
+
                     </span>
 
                 </button>
@@ -105,29 +191,40 @@
                     onclick="showScreen('guide')"
                 >
 
-                    <i class="bi bi-journal-text"></i>
+                    <i
+                        class="bi bi-journal-text"
+                    ></i>
+
 
                     <span>
+
                         Cara Menggunakan
+
                     </span>
 
                 </button>
 
+
             </div>
+
 
         </section>
 
 
-        <!-- =========================
-             SCAN MARKER
-        ========================== -->
+        <!-- =================================================
+             SCAN
+        ================================================== -->
 
         <section
             class="screen"
             id="scan"
         >
 
-            <div class="topbar">
+
+            <div
+                class="topbar"
+            >
+
 
                 <button
                     type="button"
@@ -135,50 +232,79 @@
                     onclick="closeCameraAndGoHome()"
                 >
 
-                    <i class="bi bi-arrow-left"></i>
+                    <i
+                        class="bi bi-arrow-left"
+                    ></i>
 
                 </button>
 
+
                 <h2>
+
                     Scan Marker
+
                 </h2>
+
 
             </div>
 
 
-            <div class="camera-box">
+            <!-- CAMERA BOX -->
 
-                <!-- Video Kamera -->
+            <div
+                class="camera-box"
+                id="cameraBox"
+            >
+
+
+                <!-- VIDEO KAMERA -->
 
                 <video
-                    id="camera"
+                    id="cameraVideo"
                     autoplay
                     playsinline
+                    muted
                 ></video>
 
 
-                <!-- Tampilan ketika kamera belum aktif -->
+                <!-- CANVAS DETEKSI -->
+
+                <canvas
+                    id="cameraCanvas"
+                ></canvas>
+
+
+                <!-- PLACEHOLDER -->
 
                 <div
                     class="camera-placeholder"
                     id="cameraPlaceholder"
                 >
 
-                    <i class="bi bi-camera"></i>
+
+                    <i
+                        class="bi bi-camera"
+                    ></i>
+
 
                     <p>
+
                         Kamera belum aktif
+
                     </p>
+
 
                 </div>
 
 
-                <!-- Frame Scanner -->
+                <!-- FRAME SCAN -->
 
-                <div class="scan-frame"></div>
+                <div
+                    class="scan-frame"
+                ></div>
 
 
-                <!-- Status Kamera -->
+                <!-- STATUS -->
 
                 <div
                     class="camera-status"
@@ -189,10 +315,16 @@
 
                 </div>
 
+
             </div>
 
 
-            <div class="camera-buttons">
+            <!-- CAMERA BUTTON -->
+
+            <div
+                class="camera-buttons"
+            >
+
 
                 <button
                     type="button"
@@ -201,9 +333,14 @@
                     onclick="startCamera()"
                 >
 
-                    <i class="bi bi-camera-video"></i>
+
+                    <i
+                        class="bi bi-camera-video"
+                    ></i>
+
 
                     Aktifkan Kamera
+
 
                 </button>
 
@@ -215,42 +352,65 @@
                     onclick="stopCamera()"
                 >
 
-                    <i class="bi bi-camera-video-off"></i>
+
+                    <i
+                        class="bi bi-camera-video-off"
+                    ></i>
+
 
                     Matikan Kamera
 
+
                 </button>
 
+
             </div>
 
 
-            <div class="info-panel">
+            <!-- INFO -->
+
+            <div
+                class="info-panel"
+            >
+
 
                 <h3>
+
                     Instruksi
+
                 </h3>
 
+
                 <p>
-                    Aktifkan kamera, kemudian arahkan kamera
-                    ke marker komponen komputer untuk melakukan
-                    pemindaian.
+
+                    Aktifkan kamera kemudian arahkan kamera
+                    ke marker ArUco komponen komputer.
+                    Jika marker berhasil dikenali, informasi
+                    komponen akan ditampilkan.
+
                 </p>
 
+
             </div>
+
 
         </section>
 
 
-        <!-- =========================
+        <!-- =================================================
              INFO KOMPONEN
-        ========================== -->
+        ================================================== -->
 
         <section
             class="screen"
             id="info"
         >
 
-            <div class="topbar">
+
+            <div
+                class="topbar"
+            >
+
 
                 <button
                     type="button"
@@ -258,23 +418,32 @@
                     onclick="showScreen('home')"
                 >
 
-                    <i class="bi bi-arrow-left"></i>
+                    <i
+                        class="bi bi-arrow-left"
+                    ></i>
 
                 </button>
 
+
                 <h2>
+
                     Info Komponen
+
                 </h2>
+
 
             </div>
 
 
-            <div class="component-list">
+            <div
+                class="component-list"
+            >
 
 
-                <!-- PROCESSOR -->
+                <div
+                    class="component-card"
+                >
 
-                <div class="component-card">
 
                     <img
                         src="images/cpu.png"
@@ -282,25 +451,35 @@
                         class="component-img"
                     >
 
+
                     <div>
 
+
                         <h3>
+
                             Processor
+
                         </h3>
 
+
                         <p>
+
                             Berfungsi sebagai pusat pemrosesan
                             data pada komputer.
+
                         </p>
 
+
                     </div>
+
 
                 </div>
 
 
-                <!-- RAM -->
+                <div
+                    class="component-card"
+                >
 
-                <div class="component-card">
 
                     <img
                         src="images/ram.png"
@@ -308,25 +487,35 @@
                         class="component-img"
                     >
 
+
                     <div>
 
+
                         <h3>
+
                             RAM
+
                         </h3>
 
+
                         <p>
+
                             Menyimpan data sementara saat
                             komputer sedang digunakan.
+
                         </p>
 
+
                     </div>
+
 
                 </div>
 
 
-                <!-- MOTHERBOARD -->
+                <div
+                    class="component-card"
+                >
 
-                <div class="component-card">
 
                     <img
                         src="images/motherboard.png"
@@ -334,51 +523,71 @@
                         class="component-img"
                     >
 
+
                     <div>
 
+
                         <h3>
+
                             Motherboard
+
                         </h3>
 
+
                         <p>
+
                             Menghubungkan seluruh komponen
                             utama komputer.
+
                         </p>
 
+
                     </div>
+
 
                 </div>
 
 
-                <!-- SSD -->
+                <div
+                    class="component-card"
+                >
 
-                <div class="component-card">
 
                     <img
                         src="images/ssd.png"
-                        alt="SSD atau Hard Disk"
+                        alt="SSD / Hard Disk"
                         class="component-img"
                     >
 
+
                     <div>
 
+
                         <h3>
+
                             SSD / Hard Disk
+
                         </h3>
 
+
                         <p>
+
                             Digunakan untuk menyimpan data
                             dan sistem operasi.
+
                         </p>
 
+
                     </div>
+
 
                 </div>
 
 
-                <!-- PSU -->
+                <div
+                    class="component-card"
+                >
 
-                <div class="component-card">
 
                     <img
                         src="images/psu.png"
@@ -386,36 +595,51 @@
                         class="component-img"
                     >
 
+
                     <div>
 
+
                         <h3>
+
                             Power Supply
+
                         </h3>
 
+
                         <p>
+
                             Menyuplai daya listrik ke seluruh
                             komponen komputer.
+
                         </p>
+
 
                     </div>
 
+
                 </div>
 
+
             </div>
+
 
         </section>
 
 
-        <!-- =========================
-             CARA MENGGUNAKAN
-        ========================== -->
+        <!-- =================================================
+             GUIDE
+        ================================================== -->
 
         <section
             class="screen"
             id="guide"
         >
 
-            <div class="topbar">
+
+            <div
+                class="topbar"
+            >
+
 
                 <button
                     type="button"
@@ -423,86 +647,281 @@
                     onclick="showScreen('home')"
                 >
 
-                    <i class="bi bi-arrow-left"></i>
+                    <i
+                        class="bi bi-arrow-left"
+                    ></i>
 
                 </button>
 
+
                 <h2>
+
                     Cara Menggunakan
+
                 </h2>
+
 
             </div>
 
 
-            <div class="steps">
+            <div
+                class="steps"
+            >
 
 
-                <div class="step">
+                <div
+                    class="step"
+                >
 
                     <span>
+
                         1
+
                     </span>
 
+
                     <p>
+
                         Pilih menu
                         <b>Scan Marker</b>
                         pada halaman utama.
+
                     </p>
+
 
                 </div>
 
 
-                <div class="step">
+                <div
+                    class="step"
+                >
 
                     <span>
+
                         2
+
                     </span>
 
+
                     <p>
+
                         Tekan tombol
                         <b>Aktifkan Kamera</b>
                         dan izinkan akses kamera.
+
                     </p>
+
 
                 </div>
 
 
-                <div class="step">
+                <div
+                    class="step"
+                >
 
                     <span>
+
                         3
+
                     </span>
 
+
                     <p>
+
                         Arahkan kamera ke marker
-                        komponen komputer.
+                        ArUco komponen komputer.
+
                     </p>
+
 
                 </div>
 
 
-                <div class="step">
+                <div
+                    class="step"
+                >
 
                     <span>
+
                         4
+
                     </span>
 
+
                     <p>
-                        Pelajari visualisasi dan informasi
-                        yang ditampilkan.
+
+                        Jika marker terdeteksi,
+                        popup informasi komponen
+                        akan ditampilkan.
+
                     </p>
 
+
                 </div>
+
 
             </div>
 
+
         </section>
+
 
     </main>
 
 
-    <!-- JavaScript -->
-    <script src="script.js"></script>
+    <!-- =================================================
+         MODAL MARKER TERDETEKSI
+    ================================================== -->
+
+    <div
+        class="modal-overlay"
+        id="detectedModal"
+    >
+
+
+        <div
+            class="detected-modal"
+        >
+
+
+            <div
+                class="detected-icon"
+            >
+
+                <i
+                    class="bi bi-check-lg"
+                ></i>
+
+            </div>
+
+
+            <h2>
+
+                Marker Terdeteksi
+
+            </h2>
+
+
+            <p>
+
+                Komponen berhasil dikenali.
+
+            </p>
+
+
+            <h3
+                id="detectedComponentName"
+            >
+
+                Processor
+
+            </h3>
+
+
+            <button
+                type="button"
+                class="detail-button"
+                onclick="showComponentDetail()"
+            >
+
+                Lihat Detail
+
+            </button>
+
+
+            <button
+                type="button"
+                class="close-modal-button"
+                onclick="closeDetectedModal()"
+            >
+
+                Tutup
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =================================================
+         MODAL DETAIL
+    ================================================== -->
+
+    <div
+        class="modal-overlay"
+        id="detailModal"
+    >
+
+
+        <div
+            class="detail-modal"
+        >
+
+
+            <button
+                type="button"
+                class="modal-close"
+                onclick="closeDetailModal()"
+            >
+
+                <i
+                    class="bi bi-x-lg"
+                ></i>
+
+            </button>
+
+
+            <img
+                id="detailImage"
+                class="detail-image"
+                src=""
+                alt=""
+            >
+
+
+            <h2
+                id="detailName"
+            ></h2>
+
+
+            <p
+                id="detailDescription"
+            ></p>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script
+        src="script.js"
+    ></script>
+
+    <script>
+
+        if ("serviceWorker" in navigator) {
+
+            window.addEventListener(
+                "load",
+                function () {
+
+                    navigator.serviceWorker.register(
+                        "sw.js"
+                    );
+
+                }
+            );
+
+        }
+
+    </script>
 
 </body>
 
