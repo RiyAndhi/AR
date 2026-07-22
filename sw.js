@@ -1,5 +1,5 @@
 const CACHE_NAME =
-    "komponen-komputer-v1";
+    "komponen-komputer-v0";
 
 
 const FILES_TO_CACHE = [
