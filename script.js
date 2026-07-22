@@ -412,19 +412,9 @@ canvas.height =
             "Kamera aktif - arahkan ke marker";
 
 
-        /*
-         * Buat detector.
-
-         */
-
-        detector =
-            new AR.Detector();
-
-
-        /*
-         * Mulai deteksi.
-
-         */
+        detector = new AR.Detector({
+            dictionaryName: "ARUCO"
+        });
 
         detectMarkers();
 
