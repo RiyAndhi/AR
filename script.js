@@ -10,6 +10,12 @@
    4  = Power Supply
 ===================================================== */
 
+let sourceX = 0;
+let sourceY = 0;
+
+let sourceWidth = 0;
+let sourceHeight = 0;
+
 const components = {
 
     0: {
@@ -324,12 +330,49 @@ async function startCamera() {
 
          */
 
-        canvas.width =
-            video.videoWidth;
+const videoWidth = video.videoWidth;
+const videoHeight = video.videoHeight;
 
+const videoRatio =
+    videoWidth / videoHeight;
 
-        canvas.height =
-            video.videoHeight;
+const boxWidth =
+    cameraBox.clientWidth;
+
+const boxHeight =
+    cameraBox.clientHeight;
+
+const boxRatio =
+    boxWidth / boxHeight;
+
+let sourceX = 0;
+let sourceY = 0;
+let sourceWidth = videoWidth;
+let sourceHeight = videoHeight;
+
+if (videoRatio > boxRatio) {
+
+    sourceWidth =
+        videoHeight * boxRatio;
+
+    sourceX =
+        (videoWidth - sourceWidth) / 2;
+
+} else {
+
+    sourceHeight =
+        videoWidth / boxRatio;
+
+    sourceY =
+        (videoHeight - sourceHeight) / 2;
+
+}
+
+canvas.width =
+    sourceWidth;
+
+canvas.height =
+    sourceHeight;
 
 
         /*
@@ -470,19 +513,23 @@ function detectMarkers() {
 
          */
 
-        ctx.drawImage(
+ctx.drawImage(
 
-            video,
+    video,
 
-            0,
+    sourceX,
+    sourceY,
 
-            0,
+    sourceWidth,
+    sourceHeight,
 
-            canvas.width,
+    0,
+    0,
 
-            canvas.height
+    canvas.width,
+    canvas.height
 
-        );
+);
 
 
         /*
