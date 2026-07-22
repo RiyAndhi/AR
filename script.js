@@ -1,59 +1,8 @@
 /* =========================
-   DATA KOMPONEN
+   GLOBAL CAMERA VARIABLE
 ========================= */
 
-const components = {
-
-    markerCPU: {
-
-        name: "Processor",
-
-        description:
-            "Processor merupakan pusat pemrosesan komputer yang bertugas menjalankan instruksi dan mengolah data."
-
-    },
-
-
-    markerRAM: {
-
-        name: "RAM",
-
-        description:
-            "RAM berfungsi menyimpan data sementara yang sedang digunakan oleh processor agar dapat diakses dengan cepat."
-
-    },
-
-
-    markerMotherboard: {
-
-        name: "Motherboard",
-
-        description:
-            "Motherboard merupakan papan utama yang menghubungkan berbagai komponen komputer agar dapat bekerja bersama."
-
-    },
-
-
-    markerSSD: {
-
-        name: "SSD / Hard Disk",
-
-        description:
-            "SSD atau Hard Disk digunakan untuk menyimpan sistem operasi, aplikasi, dan berbagai data pengguna."
-
-    },
-
-
-    markerPSU: {
-
-        name: "Power Supply",
-
-        description:
-            "Power Supply berfungsi mengubah dan menyuplai daya listrik yang dibutuhkan oleh berbagai komponen komputer."
-
-    }
-
-};
+let cameraStream = null;
 
 
 /* =========================
@@ -62,364 +11,249 @@ const components = {
 
 function showScreen(screenId) {
 
-    const screens =
-        document.querySelectorAll(
-            ".screen"
-        );
+    const screens = document.querySelectorAll(".screen");
+
+    screens.forEach((screen) => {
+        screen.classList.remove("active");
+    });
 
 
-    screens.forEach(
-        (screen) => {
+    const selectedScreen = document.getElementById(screenId);
 
-            screen.classList.remove(
-                "active"
-            );
+    if (selectedScreen) {
+        selectedScreen.classList.add("active");
+    }
 
-        }
+
+    /*
+     * Jika keluar dari halaman Scan Marker,
+     * kamera otomatis dimatikan.
+     */
+
+    if (screenId !== "scan") {
+        stopCamera();
+    }
+
+}
+
+
+/* =========================
+   AKTIFKAN KAMERA
+========================= */
+
+async function startCamera() {
+
+    const video = document.getElementById("camera");
+
+    const placeholder = document.getElementById(
+        "cameraPlaceholder"
+    );
+
+    const status = document.getElementById(
+        "cameraStatus"
+    );
+
+    const startButton = document.getElementById(
+        "startCameraButton"
+    );
+
+    const stopButton = document.getElementById(
+        "stopCameraButton"
     );
 
 
-    const selectedScreen =
-        document.getElementById(
-            screenId
-        );
+    /*
+     * Jika kamera sudah aktif,
+     * tidak perlu mengaktifkannya lagi.
+     */
 
-
-    if (!selectedScreen) {
-
+    if (cameraStream) {
         return;
-
     }
 
 
-    selectedScreen.classList.add(
-        "active"
-    );
+    try {
+
+        /*
+         * Meminta akses kamera belakang.
+         */
+
+        cameraStream =
+            await navigator.mediaDevices.getUserMedia({
+
+                video: {
+                    facingMode: {
+                        ideal: "environment"
+                    }
+                },
+
+                audio: false
+
+            });
 
 
-    /*
-     * Jika masuk ke halaman AR,
-     * aktifkan sistem AR.
-     */
+        /*
+         * Menghubungkan kamera
+         * ke elemen video.
+         */
 
-    if (
-        screenId === "scan"
-    ) {
-
-        startAR();
-
-    }
-
-}
+        video.srcObject = cameraStream;
 
 
-/* =========================
-   MULAI AR
-========================= */
+        /*
+         * Menampilkan video kamera.
+         */
 
-function startAR() {
+        video.style.display = "block";
 
-    const arScene =
-        document.getElementById(
-            "arScene"
-        );
+        placeholder.style.display = "none";
 
 
-    /*
-     * Memastikan scene AR aktif.
-     */
+        /*
+         * Mengubah status.
+         */
 
-    if (
-        arScene
-    ) {
-
-        arScene.style.display =
-            "block";
-
-    }
-
-}
+        status.textContent =
+            "Kamera aktif - arahkan ke marker";
 
 
-/* =========================
-   TUTUP AR
-========================= */
-
-function closeAR() {
-
-    const arScene =
-        document.getElementById(
-            "arScene"
-        );
+        status.style.color =
+            "#38bdf8";
 
 
-    /*
-     * Menonaktifkan kamera AR
-     * sebelum kembali ke home.
-     */
+        /*
+         * Mengatur tombol.
 
-    const video =
-        document.querySelector(
-            "#arScene video"
-        );
+         */
 
-
-    if (
-        video &&
-        video.srcObject
-    ) {
-
-        const tracks =
-            video.srcObject.getTracks();
-
-
-        tracks.forEach(
-            (track) => {
-
-                track.stop();
-
-            }
-        );
-
-
-        video.srcObject =
-            null;
-
-    }
-
-
-    if (
-        arScene
-    ) {
-
-        arScene.style.display =
+        startButton.style.display =
             "none";
 
+        stopButton.style.display =
+            "flex";
+
+
+    } catch (error) {
+
+        console.error(
+            "Gagal mengakses kamera:",
+            error
+        );
+
+
+        status.textContent =
+            "Kamera tidak dapat diakses";
+
+
+        status.style.color =
+            "#f87171";
+
+
+        alert(
+            "Kamera tidak dapat diakses. " +
+            "Pastikan izin kamera sudah diberikan."
+        );
+
     }
 
+}
 
-    showScreen(
-        "home"
+
+/* =========================
+   MATIKAN KAMERA
+========================= */
+
+function stopCamera() {
+
+    const video = document.getElementById(
+        "camera"
     );
 
-}
-
-
-/* =========================
-   EVENT MARKER
-========================= */
-
-function setupMarkerEvents() {
-
-
-    Object.keys(
-        components
-    ).forEach(
-
-        (markerId) => {
-
-
-            const marker =
-                document.getElementById(
-                    markerId
-                );
-
-
-            if (
-                !marker
-            ) {
-
-                return;
-
-            }
-
-
-            /*
-             * Ketika marker terlihat.
-             */
-
-            marker.addEventListener(
-                "markerFound",
-
-                () => {
-
-                    const component =
-                        components[
-                            markerId
-                        ];
-
-
-                    showComponentInfo(
-                        component
-                    );
-
-                }
-
-            );
-
-
-            /*
-             * Ketika marker tidak terlihat.
-             */
-
-            marker.addEventListener(
-                "markerLost",
-
-                () => {
-
-                    resetComponentInfo();
-
-                }
-
-            );
-
-        }
-
+    const placeholder = document.getElementById(
+        "cameraPlaceholder"
     );
 
-}
-
-
-/* =========================
-   TAMPILKAN INFO
-========================= */
-
-function showComponentInfo(
-    component
-) {
-
-    const name =
-        document.getElementById(
-            "arComponentName"
-        );
-
-
-    const description =
-        document.getElementById(
-            "arComponentDescription"
-        );
-
-
-    if (
-        name
-    ) {
-
-        name.textContent =
-            component.name;
-
-    }
-
-
-    if (
-        description
-    ) {
-
-        description.textContent =
-            component.description;
-
-    }
-
-}
-
-
-/* =========================
-   RESET INFO
-========================= */
-
-function resetComponentInfo() {
-
-    const name =
-        document.getElementById(
-            "arComponentName"
-        );
-
-
-    const description =
-        document.getElementById(
-            "arComponentDescription"
-        );
-
-
-    if (
-        name
-    ) {
-
-        name.textContent =
-            "Belum ada marker";
-
-    }
-
-
-    if (
-        description
-    ) {
-
-        description.textContent =
-            "Arahkan kamera ke marker komponen komputer.";
-
-    }
-
-}
-
-
-/* =========================
-   PWA
-========================= */
-
-if (
-    "serviceWorker"
-    in navigator
-) {
-
-    window.addEventListener(
-        "load",
-
-        () => {
-
-            navigator.serviceWorker
-                .register(
-                    "sw.js"
-                )
-
-                .then(
-                    () => {
-
-                        console.log(
-                            "Service Worker aktif"
-                        );
-
-                    }
-                )
-
-                .catch(
-                    (error) => {
-
-                        console.error(
-                            "Service Worker gagal:",
-                            error
-                        );
-
-                    }
-                );
-
-        }
-
+    const status = document.getElementById(
+        "cameraStatus"
     );
 
+    const startButton = document.getElementById(
+        "startCameraButton"
+    );
+
+    const stopButton = document.getElementById(
+        "stopCameraButton"
+    );
+
+
+    /*
+     * Mematikan seluruh track kamera.
+     */
+
+    if (cameraStream) {
+
+        cameraStream
+            .getTracks()
+            .forEach((track) => {
+                track.stop();
+            });
+
+        cameraStream = null;
+
+    }
+
+
+    /*
+     * Menghapus sumber video.
+     */
+
+    video.srcObject = null;
+
+    video.style.display = "none";
+
+
+    /*
+     * Menampilkan placeholder lagi.
+     */
+
+    placeholder.style.display =
+        "flex";
+
+
+    /*
+     * Mengubah status kamera.
+     */
+
+    status.textContent =
+        "Kamera belum aktif";
+
+
+    status.style.color =
+        "#cbd5e1";
+
+
+    /*
+     * Mengatur tombol.
+
+     */
+
+    startButton.style.display =
+        "flex";
+
+    stopButton.style.display =
+        "flex";
+
 }
 
 
 /* =========================
-   INISIALISASI
+   KEMBALI KE HOME
 ========================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
+function closeCameraAndGoHome() {
 
-    () => {
+    stopCamera();
 
-        setupMarkerEvents();
+    showScreen("home");
 
-    }
-
-);
+}
